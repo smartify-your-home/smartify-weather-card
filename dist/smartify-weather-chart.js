@@ -1050,6 +1050,15 @@ class WeatherChartCardEditor extends s {
     this.requestUpdate();
   }
 
+  _handleIconStyleChange(event) {
+    if (!this._config) {
+      return;
+    }
+    const newConfig = { ...this._config, icon_style: event.target.value };
+    this.configChanged(newConfig);
+    this.requestUpdate();
+  }
+
   _handleTypeChange(event) {
     if (!this._config) {
       return;
@@ -1250,6 +1259,33 @@ class WeatherChartCardEditor extends s {
           >
           <label class="check-label">
             Chart style 2
+          </label>
+        </div>
+      </div>
+
+      <h5>Icon style:</h5>
+      <div class="radio-container">
+        <div class="switch-right">
+          <input type="radio"
+            name="icon_style"
+            value="colored"
+            @change="${this._handleIconStyleChange}"
+            .checked="${this._config.icon_style !== 'monochrome'}"
+          >
+          <label class="check-label">
+            Colored
+          </label>
+        </div>
+
+        <div class="switch-right">
+          <input type="radio"
+            name="icon_style"
+            value="monochrome"
+            @change="${this._handleIconStyleChange}"
+            .checked="${this._config.icon_style === 'monochrome'}"
+          >
+          <label class="check-label">
+            Monochrome
           </label>
         </div>
       </div>
@@ -17824,6 +17860,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     show_last_changed: false,
     use_12hour_format: false,
     icons_size: 25,
+    icon_style: 'colored',
     autoscroll: false,
     forecast: {
       precipitation_type: 'rainfall',
@@ -17871,6 +17908,7 @@ setConfig(config) {
     show_visibility: false,
     show_last_changed: false,
     show_description: false,
+    icon_style: 'colored',
     ...config,
     forecast: {
       precipitation_type: 'rainfall',
@@ -18778,7 +18816,7 @@ renderMain({ config, sun, weather, temperature, feels_like, description } = this
 
   const iconHtml = config.icons
     ? x`<img src="${this.getWeatherIcon(weather.state, sun.state)}" alt="">`
-    : x`<ha-icon icon="${this.getWeatherIcon(weather.state, sun.state)}" style="color: ${getConditionColor(weather.state, sun.state === 'below_horizon')};"></ha-icon>`;
+    : x`<ha-icon icon="${this.getWeatherIcon(weather.state, sun.state)}" style="${this.iconColor(getConditionColor(weather.state, sun.state === 'below_horizon'))}"></ha-icon>`;
 
   const updateClock = () => {
     const currentDate = new Date();
@@ -18959,20 +18997,24 @@ return x`
       ${((showWindDirection && windDirection !== undefined) || (showWindSpeed && dWindSpeed !== undefined)) ? x`
         <div>
           ${showWindDirection && windDirection !== undefined ? x`
-            <ha-icon icon="hass:${this.getWindDirIcon(windDirection)}" style="color: #3ddcc4;"></ha-icon> ${this.getWindDir(windDirection)} <br>
+            <ha-icon icon="hass:${this.getWindDirIcon(windDirection)}" style="${this.iconColor('#3ddcc4')}"></ha-icon> ${this.getWindDir(windDirection)} <br>
           ` : ''}
           ${showWindSpeed && dWindSpeed !== undefined ? x`
-            <ha-icon icon="hass:weather-windy" style="color: #3ddcc4;"></ha-icon>
+            <ha-icon icon="hass:weather-windy" style="${this.iconColor('#3ddcc4')}"></ha-icon>
             ${dWindSpeed} ${this.ll('units')[this.unitSpeed]} <br>
           ` : ''}
           ${showWindgustspeed && wind_gust_speed !== undefined ? x`
-            <ha-icon icon="hass:weather-windy-variant" style="color: #3ddcc4;"></ha-icon>
+            <ha-icon icon="hass:weather-windy-variant" style="${this.iconColor('#3ddcc4')}"></ha-icon>
             ${wind_gust_speed} ${this.ll('units')[this.unitSpeed]}
           ` : ''}
         </div>
       ` : ''}
     </div>
 `;
+}
+
+iconColor(color) {
+  return this.config.icon_style === 'monochrome' ? '' : `color: ${color};`;
 }
 
 renderSun({ sun, language, config } = this) {
@@ -18988,9 +19030,9 @@ const timeOptions = {
 };
 
   return x`
-    <ha-icon icon="mdi:weather-sunset-up" style="color: #ffb800;"></ha-icon>
+    <ha-icon icon="mdi:weather-sunset-up" style="${this.iconColor('#ffb800')}"></ha-icon>
       ${new Date(sun.attributes.next_rising).toLocaleTimeString(language, timeOptions)}<br>
-    <ha-icon icon="mdi:weather-sunset-down" style="color: #ff8c42;"></ha-icon>
+    <ha-icon icon="mdi:weather-sunset-down" style="${this.iconColor('#ff8c42')}"></ha-icon>
       ${new Date(sun.attributes.next_setting).toLocaleTimeString(language, timeOptions)}
   `;
 }
@@ -19040,7 +19082,7 @@ renderForecastConditionIcons({ config, forecastItems, sun } = this) {
           iconHtml = x`<img class="icon" src="${iconSrc}" alt="">`;
         } else {
           const forecastSunState = isDayTime ? 'above_horizon' : 'below_horizon';
-          iconHtml = x`<ha-icon icon="${this.getWeatherIcon(condition, forecastSunState)}" style="color: ${getConditionColor(condition, !isDayTime)};"></ha-icon>`;
+          iconHtml = x`<ha-icon icon="${this.getWeatherIcon(condition, forecastSunState)}" style="${this.iconColor(getConditionColor(condition, !isDayTime))}"></ha-icon>`;
         }
 
         return x`

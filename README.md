@@ -31,6 +31,7 @@ mit jeder `weather.*`-Entity.
 ### Aktuelles Wetter
 - 🌡️ Aktuelle Temperatur und Wetterzustand (Text in 23 Sprachen)
 - 🎨 **Farbige Wetter-Icons**: Jede Wetterlage hat eine eigene Farbe (Sonne gelb, Regen blau, Gewitter violett, Nebel grau, …), nachts mit eigenem Ton für „teils bewölkt“
+- ⚫ **Monochrom-Modus**: Mit `icon_style: monochrome` verwenden alle Icons die Standardfarbe des Themes. Umschaltbar im Editor unter „Icon style“
 - 💧 Luftfeuchtigkeit, 🧭 Luftdruck, 💨 Windgeschwindigkeit und Windrichtung
 - 🌅 Sonnenaufgang und Sonnenuntergang
 - Optional: gefühlte Temperatur, Taupunkt, Windböen, Sichtweite, Wetterbeschreibung
@@ -98,6 +99,7 @@ Ausführlich:
 type: custom:weather-chart-card
 entity: weather.meteonomiqs_wetter
 locale: de
+icon_style: colored   # oder monochrome
 show_main: true
 show_temperature: true
 show_current_condition: true
@@ -150,6 +152,7 @@ forecast:
 | `entity` | – | **Pflicht.** Eine `weather.*`-Entity |
 | `title` | – | Titel der Karte |
 | `locale` | HA-Sprache | Sprache der Karte, zum Beispiel `de` |
+| `icon_style` | `colored` | `colored` (farbige Icons) oder `monochrome` (einfarbig in der Theme-Farbe) |
 | `show_main` | `true` | Hauptbereich mit Temperatur und Zustand |
 | `show_temperature` | `true` | Aktuelle Temperatur |
 | `show_current_condition` | `true` | Wetterzustand als Text |
