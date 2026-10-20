@@ -14,6 +14,18 @@ von mlamberts78. Sie zeigt das aktuelle Wetter und die Vorhersage als Diagramm a
 Integration [my-weather](https://github.com/smartify-your-home/my-weather) gedacht. Sie funktioniert
 mit jeder `weather.*`-Entity.
 
+## 🖼️ Vorschau
+
+**Tagesvorschau** (`forecast.type: daily`)
+
+![Tagesvorschau mit farbigen Icons](images/card-daily.png)
+
+**Stundenvorschau** (`forecast.type: hourly`)
+
+![Stundenvorschau mit farbigen Icons](images/card-hourly.png)
+
+*Die Bilder zeigen Beispieldaten.*
+
 ## ✨ Features
 
 ### Aktuelles Wetter
