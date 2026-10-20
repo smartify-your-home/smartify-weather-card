@@ -1145,6 +1145,32 @@ class WeatherChartCardEditor extends s {
           padding-bottom: 10px;
           margin-bottom: 20px;
         }
+        .page-button {
+          background: none;
+          border: none;
+          border-bottom: 2px solid transparent;
+          color: var(--primary-text-color);
+          cursor: pointer;
+          font: inherit;
+          padding: 8px 12px;
+          text-transform: uppercase;
+        }
+        .page-button.active {
+          border-bottom-color: var(--primary-color);
+          color: var(--primary-color);
+        }
+        .radio-group input[type="radio"],
+        .radio-container input[type="radio"] {
+          accent-color: var(--primary-color);
+        }
+        .language-select {
+          background: var(--secondary-background-color, #f2f2f2);
+          border: none;
+          border-bottom: 1px solid var(--secondary-text-color);
+          color: var(--primary-text-color);
+          font: inherit;
+          padding: 12px 8px;
+        }
         .flex-container {
           display: flex;
           flex-direction: row;
@@ -1178,24 +1204,24 @@ class WeatherChartCardEditor extends s {
       <h5>Forecast type:</h5>
 
       <div class="radio-group">
-        <ha-radio
+        <input type="radio"
           name="type"
           value="daily"
           @change="${this._handleTypeChange}"
           .checked="${forecastConfig.type === 'daily'}"
-        ></ha-radio>
+        >
         <label class="check-label">
           Daily forecast
         </label>
       </div>
 
       <div class="radio-group">
-        <ha-radio
+        <input type="radio"
           name="type"
           value="hourly"
           @change="${this._handleTypeChange}"
           .checked="${forecastConfig.type === 'hourly'}"
-        ></ha-radio>
+        >
         <label class="check-label">
           Hourly forecast
         </label>
@@ -1204,24 +1230,24 @@ class WeatherChartCardEditor extends s {
       <h5>Chart style:</h5>
       <div class="radio-container">
         <div class="switch-right">
-          <ha-radio
+          <input type="radio"
             name="style"
             value="style1"
             @change="${this._handleStyleChange}"
             .checked="${forecastConfig.style === 'style1'}"
-          ></ha-radio>
+          >
           <label class="check-label">
             Chart style 1
           </label>
         </div>
 
         <div class="switch-right">
-          <ha-radio
+          <input type="radio"
             name="style"
             value="style2"
             @change="${this._handleStyleChange}"
             .checked="${forecastConfig.style === 'style2'}"
-          ></ha-radio>
+          >
           <label class="check-label">
             Chart style 2
           </label>
@@ -1231,10 +1257,10 @@ class WeatherChartCardEditor extends s {
         <!-- Buttons to switch between pages -->
        <h4>Settings:</h4>
        <div class="buttons-container">
-         <mwc-button @click="${() => this.showPage('card')}">Main</mwc-button>
-         <mwc-button @click="${() => this.showPage('forecast')}">Forecast</mwc-button>
-         <mwc-button @click="${() => this.showPage('units')}">Units</mwc-button>
-         <mwc-button @click="${() => this.showPage('alternate')}">Alternate entities</mwc-button>
+         <button type="button" class="page-button ${this.currentPage === 'card' ? 'active' : ''}" @click="${() => this.showPage('card')}">Main</button>
+         <button type="button" class="page-button ${this.currentPage === 'forecast' ? 'active' : ''}" @click="${() => this.showPage('forecast')}">Forecast</button>
+         <button type="button" class="page-button ${this.currentPage === 'units' ? 'active' : ''}" @click="${() => this.showPage('units')}">Units</button>
+         <button type="button" class="page-button ${this.currentPage === 'alternate' ? 'active' : ''}" @click="${() => this.showPage('alternate')}">Alternate entities</button>
        </div>
 
         <!-- Card Settings Page -->
@@ -1472,40 +1498,33 @@ class WeatherChartCardEditor extends s {
           .value="${this._config.icons || ''}"
           @change="${(e) => this._valueChanged(e, 'icons')}"
         ></ha-textfield>
-         <ha-select
-           naturalMenuWidth
-           fixedMenuPosition
-           label="Select custom language"
-           .configValue=${''}
-           .value=${this._config.locale}
-           @change=${(e) => this._valueChanged(e, 'locale')}
-           @closed=${(ev) => ev.stopPropagation()}
-         >
-           <ha-list-item .value=${''}>HA Default</ha-list-item>
-           <ha-list-item .value=${'bg'}>Bulgarian</ha-list-item>
-           <ha-list-item .value=${'ca'}>Catalan</ha-list-item>
-           <ha-list-item .value=${'cs'}>Czech</ha-list-item>
-           <ha-list-item .value=${'da'}>Danish</ha-list-item>
-           <ha-list-item .value=${'nl'}>Dutch</ha-list-item>
-           <ha-list-item .value=${'en'}>English</ha-list-item>
-           <ha-list-item .value=${'fi'}>Finnish</ha-list-item>
-           <ha-list-item .value=${'fr'}>French</ha-list-item>
-           <ha-list-item .value=${'de'}>German</ha-list-item>
-           <ha-list-item .value=${'el'}>Greek</ha-list-item>
-           <ha-list-item .value=${'hu'}>Hungarian</ha-list-item>
-           <ha-list-item .value=${'it'}>Italian</ha-list-item>
-           <ha-list-item .value=${'lt'}>Lithuanian</ha-list-item>
-           <ha-list-item .value=${'no'}>Norwegian</ha-list-item>
-           <ha-list-item .value=${'pl'}>Polish</ha-list-item>
-           <ha-list-item .value=${'pt'}>Portuguese</ha-list-item>
-           <ha-list-item .value=${'ro'}>Romanian</ha-list-item>
-           <ha-list-item .value=${'ru'}>Russian</ha-list-item>
-           <ha-list-item .value=${'sk'}>Slovak</ha-list-item>
-           <ha-list-item .value=${'es'}>Spanish</ha-list-item>
-           <ha-list-item .value=${'sv'}>Swedish</ha-list-item>
-	   <ha-list-item .value=${'uk'}>Ukrainian</ha-list-item>
-    	   <ha-list-item .value=${'ko'}>한국어</ha-list-item>
-        </ha-select>
+         <label class="switch-label" for="locale-select">Select custom language</label>
+         <select id="locale-select" class="language-select" @change=${(e) => this._valueChanged(e, 'locale')}>
+           <option value="" ?selected=${(this._config.locale || '') === ''}>HA Default</option>
+           <option value="bg" ?selected=${(this._config.locale || '') === 'bg'}>Bulgarian</option>
+           <option value="ca" ?selected=${(this._config.locale || '') === 'ca'}>Catalan</option>
+           <option value="cs" ?selected=${(this._config.locale || '') === 'cs'}>Czech</option>
+           <option value="da" ?selected=${(this._config.locale || '') === 'da'}>Danish</option>
+           <option value="nl" ?selected=${(this._config.locale || '') === 'nl'}>Dutch</option>
+           <option value="en" ?selected=${(this._config.locale || '') === 'en'}>English</option>
+           <option value="fi" ?selected=${(this._config.locale || '') === 'fi'}>Finnish</option>
+           <option value="fr" ?selected=${(this._config.locale || '') === 'fr'}>French</option>
+           <option value="de" ?selected=${(this._config.locale || '') === 'de'}>German</option>
+           <option value="el" ?selected=${(this._config.locale || '') === 'el'}>Greek</option>
+           <option value="hu" ?selected=${(this._config.locale || '') === 'hu'}>Hungarian</option>
+           <option value="it" ?selected=${(this._config.locale || '') === 'it'}>Italian</option>
+           <option value="lt" ?selected=${(this._config.locale || '') === 'lt'}>Lithuanian</option>
+           <option value="nb" ?selected=${(this._config.locale || '') === 'nb'}>Norwegian</option>
+           <option value="pl" ?selected=${(this._config.locale || '') === 'pl'}>Polish</option>
+           <option value="pt" ?selected=${(this._config.locale || '') === 'pt'}>Portuguese</option>
+           <option value="ro" ?selected=${(this._config.locale || '') === 'ro'}>Romanian</option>
+           <option value="ru" ?selected=${(this._config.locale || '') === 'ru'}>Russian</option>
+           <option value="sk" ?selected=${(this._config.locale || '') === 'sk'}>Slovak</option>
+           <option value="es" ?selected=${(this._config.locale || '') === 'es'}>Spanish</option>
+           <option value="sv" ?selected=${(this._config.locale || '') === 'sv'}>Swedish</option>
+           <option value="uk" ?selected=${(this._config.locale || '') === 'uk'}>Ukrainian</option>
+           <option value="ko" ?selected=${(this._config.locale || '') === 'ko'}>한국어</option>
+         </select>
         </div>
       </div>
 
