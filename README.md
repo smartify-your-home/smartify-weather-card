@@ -1,5 +1,8 @@
 <div align="center">
 
+<img src="https://raw.githubusercontent.com/smartify-your-home/smartify-weather-card/main/images/logo.png" alt="smartify Weather Card" width="420">
+
+
 # 🌤️ Smartify Weather Card
 
 **Wetterkarte mit Temperaturverlauf, farbigen Wetter-Icons und Vorhersage-Diagramm für Home Assistant**
