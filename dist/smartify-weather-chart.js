@@ -17827,7 +17827,7 @@ var plugin = {
 
 Chart.register(...registerables, plugin);
 
-const SMARTIFY_WEATHER_CARD_VERSION = '0.1.0';
+const SMARTIFY_WEATHER_CARD_VERSION = '1.1.1';
 
 class WeatherChartCard extends s {
 
