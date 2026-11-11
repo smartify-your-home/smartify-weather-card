@@ -5,6 +5,8 @@
 
 # 🌤️ Smartify Weather Card
 
+**Aktuelle Code-Version: v0.1.0** · [Änderungsverlauf](CHANGELOG.md) · [Release Notes](RELEASE_NOTES.md)
+
 **Wetterkarte mit Temperaturverlauf, farbigen Wetter-Icons und Vorhersage-Diagramm für Home Assistant**
 
 [![HACS](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://hacs.xyz)
@@ -47,6 +49,7 @@ mit jeder `weather.*`-Entity.
 - ☔ Niederschlag als Balken, wahlweise Menge oder Wahrscheinlichkeit
 - Wetter-Icons und Windangaben unter jedem Zeitpunkt
 - Einstellbare Anzahl der Vorhersagen, Diagrammhöhe, Schriftgröße und Balkengröße
+- **Horizontal scrollbar für Tages- und Stundenansicht:** Diagramm, Niederschlag, Wetter-Icons und Windangaben bewegen sich synchron; mit Touch, Touchpad oder Desktop-Scrollleiste. `forecast.number_of_forecasts: 0` zeigt alle verfügbaren Punkte an
 - Temperaturen auf ganze Zahlen runden, Animation abschaltbar
 - Eigene Farben für Temperaturlinien, Niederschlag, Diagrammtext und Datum
 
@@ -55,7 +58,8 @@ mit jeder `weather.*`-Entity.
 - Windgeschwindigkeit: `km/h`, `m/s`, `Bft`, `mph`
 - Einstellbare Größen für Icons, aktuelle Temperatur, Uhrzeit und Datum
 - Eigener Pfad für eigene Wetter-Icons
-- Automatisches Scrollen der Vorhersage (`autoscroll`)
+- Zeitbezogene Aktualisierung/Filterung der Vorhersage (`autoscroll`, unabhängig vom manuellen horizontalen Scrollen)
+- Dezente Versionsnummer unten rechts in der Karte
 
 ### Alternative Sensoren
 Einzelne Werte lassen sich durch eigene `sensor.*`-Entities ersetzen: Temperatur, gefühlte
@@ -83,9 +87,9 @@ Bedienelemente und funktioniert damit auch in neueren Home-Assistant-Versionen.
 
 ### Manuell
 1. `dist/smartify-weather-chart.js` nach `/config/www/` kopieren.
-2. Unter **Einstellungen, Dashboards, Ressourcen** `/local/smartify-weather-chart.js` als
+2. Unter **Einstellungen, Dashboards, Ressourcen** `/local/smartify-weather-chart.js?v=0.1.0` als
    **JavaScript-Modul** hinzufügen.
-3. Browser-Cache leeren.
+3. Browser-Cache leeren; bei manuell verwalteter Dashboard-Ressource nach jedem Update die Versionskennung in der URL erhöhen (z. B. `?v=0.1.0`).
 
 ## 🚀 Verwendung
 
@@ -178,7 +182,7 @@ forecast:
 | `units.speed` | Einheit der Entity | `km/h`, `m/s`, `Bft`, `mph` |
 | `forecast.type` | `daily` | `daily` oder `hourly` |
 | `forecast.style` | `style1` | `style1` oder `style2` |
-| `forecast.number_of_forecasts` | `0` | Anzahl der Einträge, `0` passt sich der Breite an |
+| `forecast.number_of_forecasts` | `0` | Anzahl der Einträge; `0` zeigt alle verfügbaren Prognosepunkte im horizontal scrollbaren Bereich |
 | `forecast.chart_height` | `180` | Höhe des Diagramms in Pixeln |
 | `forecast.labels_font_size` | `11` | Schriftgröße der Beschriftungen |
 | `forecast.precip_bar_size` | `100` | Breite der Niederschlagsbalken in Prozent |
@@ -193,6 +197,12 @@ forecast:
 | `forecast.precipitation_color` | `rgba(132, 209, 253, 1.0)` | Farbe des Niederschlags |
 | `forecast.chart_text_color` / `forecast.chart_datetime_color` | – | Farbe von Text und Datum im Diagramm |
 | `temp`, `feels_like`, `description`, `press`, `humid`, `uv`, `winddir`, `windspeed`, `dew_point`, `wind_gust_speed`, `visibility` | – | Alternative `sensor.*`-Entities |
+
+## 📋 Versionen und Weiterentwicklung
+
+Ab **v0.1.0** folgt die Karte dem Smartify-Standard: [AGENTS.md](AGENTS.md) ist vor jeder Änderung verbindlich zu lesen. Jede nutzerrelevante Änderung erhält eine neue SemVer-Nummer und aktualisierte [CHANGELOG.md](CHANGELOG.md), [RELEASE_NOTES.md](RELEASE_NOTES.md) und betroffene README-Abschnitte. Ein Code-Commit ist noch kein veröffentlichter GitHub-Release. Im Abschlussbericht ist die Versionsnummer maßgeblich.
+
+Bei manuell eingebundenen Lovelace-Ressourcen nach jedem Update den URL-Parameter `?v=X.Y.Z` erhöhen, damit nicht die alte Browser-Cache-Version geladen wird.
 
 ## 🙏 Credits
 
