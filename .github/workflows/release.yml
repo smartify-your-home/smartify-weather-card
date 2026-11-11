@@ -5,61 +5,52 @@ on:
     branches: [main]
     paths:
       - dist/smartify-weather-chart.js
+      - scripts/**
+      - tests/**
       - CHANGELOG.md
       - RELEASE_NOTES.md
       - README.md
       - .github/workflows/release.yml
+      - .github/workflows/validation.yml
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: smartify-weather-card-release
   cancel-in-progress: false
 
 jobs:
+  validate:
+    uses: ./.github/workflows/validation.yml
+
   publish:
+    needs: validate
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - name: Verify JavaScript and version metadata
-        run: |
-          set -euo pipefail
-          node --check dist/smartify-weather-chart.js
-          python3 - <<'PY'
-          import re
-          from pathlib import Path
-          card = Path('dist/smartify-weather-chart.js').read_text(encoding='utf-8')
-          match = re.search(r"SMARTIFY_WEATHER_CARD_VERSION = '([0-9]+\.[0-9]+\.[0-9]+)'", card)
-          if not match:
-              raise SystemExit('Version constant missing')
-          version = match.group(1)
-          for path in ('README.md', 'CHANGELOG.md', 'RELEASE_NOTES.md'):
-              if f'v{version}' not in Path(path).read_text(encoding='utf-8'):
-                  raise SystemExit(f'{path}: version v{version} missing')
-          print('Version metadata consistent:', version)
-          PY
-      - name: Publish versioned GitHub release
+      - name: Publish immutable versioned release after validation
         env:
           GH_TOKEN: ${{ github.token }}
+        shell: bash
         run: |
           set -euo pipefail
-          version=$(sed -n "s/.*SMARTIFY_WEATHER_CARD_VERSION = '\\([0-9.]*\\)'.*/\\1/p" dist/smartify-weather-chart.js | head -n 1)
+          version=$(python3 scripts/check_version.py | sed -n 's/^PASS: Smartify Weather Card v\([0-9.]*\) metadata and HACS contract$/\1/p')
           test -n "$version"
           tag="v$version"
           if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            echo "Release $tag already exists; leaving unchanged."
+            echo "Release $tag already exists; never overwrite it."
             exit 0
           fi
           if git ls-remote --exit-code --tags origin "refs/tags/$tag" >/dev/null 2>&1; then
-            echo "::error::Tag $tag exists without a GitHub release. Review required."
+            echo "::error::Tag $tag already exists without a GitHub release. Manual review required."
             exit 1
           fi
           gh release create "$tag" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "Smartify Weather Card $tag" --notes-file RELEASE_NOTES.md
-          echo "Published $tag"
+          gh release view "$tag" --repo "$GITHUB_REPOSITORY"
