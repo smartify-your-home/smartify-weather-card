@@ -45,3 +45,9 @@ Tests niemals durch Entfernen/Abschwächen vortäuschen; ohne reale HA-Laufzeit 
 
 ## 6. Abschlussbericht / Definition of Done
 Ein Änderungsauftrag ist nur abgeschlossen, wenn Code, Versionskennzeichnung, Changelog, Release Notes und betroffene README-Inhalte konsistent vorliegen. Abschluss nennt Versionsnummer, relevante Änderungen, Tests/fehlende Tests und klar den Status von **GitHub-Release: ja/nein**.
+
+## 7. Verbindliche CI-Validierung (ab v1.1.1)
+- `.github/workflows/validation.yml` läuft separat bei Push, Pull Request und manuell; der Release-Workflow bindet sie als **wiederverwendbaren Pflichtjob** ein (`needs: validate`).
+- Die Validierung führt `node --check` für die verteilte Karte und Tests, `python scripts/check_version.py`, `node --test tests/*.test.cjs` und eine YAML-Prüfung der Workflows aus. Ein fehlgeschlagener Test verhindert die Veröffentlichung.
+- Änderungen an den Vorhersagevarianten benötigen passende Regressionstests; die bestehenden Tests niemals zum Umgehen von Fehlern abschwächen oder entfernen.
+- Statische Contract-Tests ersetzen keinen echten Home-Assistant-Test. CI-Status ist gesondert vom GitHub-Actions-Startstatus zu berichten: `startup_failure` entsteht vor Ausführung und wird durch Codevalidierung allein nicht geheilt.
