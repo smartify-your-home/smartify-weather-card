@@ -18059,7 +18059,14 @@ measureCard() {
     return;
   }
 
-  this.forecastItems = numberOfForecasts > 0 ? numberOfForecasts : Math.round(card.offsetWidth / (fontSize * 6));
+  // With a horizontal forecast track, show all available entries unless a limit is configured.
+  const availableItems = this.forecasts ? this.forecasts.length : 0;
+  const requestedItems = Number(numberOfForecasts);
+  const nextItems = requestedItems > 0 ? Math.min(requestedItems, availableItems) : availableItems;
+  if (this.forecastItems !== nextItems) {
+    this.forecastItems = nextItems;
+    this.requestUpdate();
+  }
   this.drawChart();
 }
 
@@ -18689,6 +18696,21 @@ updateChart({ forecasts, forecastChart } = this) {
       	  font-weight: 300;
           direction: ltr;
         }
+        .forecast-scroll {
+          width: 100%;
+          min-width: 0;
+          overflow-x: auto;
+          overflow-y: hidden;
+          overscroll-behavior-x: contain;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: thin;
+          scrollbar-color: var(--secondary-text-color) transparent;
+        }
+        .forecast-track {
+          width: 100%;
+          min-width: ${Math.max(0, (this.forecastItems || 0) * (config.forecast.type === 'hourly' ? 76 : 88))}px;
+          direction: ltr;
+        }
         .chart-container {
           position: relative;
           height: ${config.forecast.chart_height}px;
@@ -18779,11 +18801,15 @@ updateChart({ forecasts, forecastChart } = this) {
         <div class="card">
           ${this.renderMain()}
           ${this.renderAttributes()}
-          <div class="chart-container">
-            <canvas id="forecastChart"></canvas>
+          <div class="forecast-scroll" tabindex="0" aria-label="Wettervorhersage horizontal scrollen">
+            <div class="forecast-track">
+              <div class="chart-container">
+                <canvas id="forecastChart"></canvas>
+              </div>
+              ${this.renderForecastConditionIcons()}
+              ${this.renderWind()}
+            </div>
           </div>
-          ${this.renderForecastConditionIcons()}
-          ${this.renderWind()}
           ${this.renderLastUpdated()}
         </div>
       </ha-card>
