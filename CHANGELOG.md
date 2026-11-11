@@ -1,8 +1,8 @@
 # Changelog – Smartify Weather Card
 
-Alle nutzerrelevanten Änderungen werden ab v0.1.0 nach SemVer dokumentiert. Frühere unversionierte Entwicklungsstände werden nicht nachträglich als veröffentlichte Releases ausgegeben.
+Alle nutzerrelevanten Änderungen werden ab v1.1.1 nach SemVer dokumentiert. Frühere Entwicklungsstände sind im GitHub-Release-Verlauf dokumentiert; das vorherige Release trägt den Tag `1.0.0` und den Titel `1.1.0`. Historische Metadaten werden nicht nachträglich umgeschrieben.
 
-## [0.1.0] – 2026-11-11
+## [1.1.1] – 2026-11-11
 
 ### Neu
 - Horizontal scrollbar für die **Stunden- und Tagesvorhersage** auf Desktop und Touch-Geräten.
@@ -19,7 +19,7 @@ Alle nutzerrelevanten Änderungen werden ab v0.1.0 nach SemVer dokumentiert. Fr�
 ### Migration / Upgrade
 - Keine Änderung des Kartentyps oder der bestehenden YAML-Schlüssel.
 - Die frühere automatische Begrenzung der Forecast-Zahl bei `number_of_forecasts: 0` entfällt. Für eine feste maximale Anzahl den Wert explizit setzen.
-- Nach einem Update HACS-Ressource/Browser-Cache prüfen, bei manueller Installation die Ressource mit `?v=0.1.0` versionieren.
+- Nach einem Update HACS-Ressource/Browser-Cache prüfen, bei manueller Installation die Ressource mit `?v=1.1.1` versionieren.
 
 ### Bekannte Einschränkungen / Teststatus
 - Prüfung im laufenden Home Assistant (inkl. iPhone/iPad) steht aus.
