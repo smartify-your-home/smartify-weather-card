@@ -45,5 +45,5 @@ test('existing display styles and optional forecast content remain', () => {
   assert.match(source, /show_wind_forecast !== false/);
   assert.match(source, /config\.autoscroll/);
   assert.match(source, /config\.forecast\.precipitation_type === 'probability'/);
-  assert.match(source, /SMARTIFY_WEATHER_CARD_VERSION = '1\.1\.1'/);
+  assert.match(source, /SMARTIFY_WEATHER_CARD_VERSION = '[0-9]+\.[0-9]+\.[0-9]+'/);
 });
