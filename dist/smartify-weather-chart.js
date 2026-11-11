@@ -17988,9 +17988,12 @@ subscribeForecastEvents() {
     return;
   }
 
-  const callback = (event) => {
+  const callback = async (event) => {
     this.forecasts = event.forecast;
+    // Recalculate the full track width whenever the forecast changes.
+    this.measureCard();
     this.requestUpdate();
+    await this.updateComplete;
     this.drawChart();
   };
 
