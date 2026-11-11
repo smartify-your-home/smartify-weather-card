@@ -26,7 +26,7 @@
 5. Für veröffentlichte Versionen Git-Tag `vX.Y.Z` und **echtes GitHub-Release** mit Notes erzeugen, vorhandene Workflows beachten und Veröffentlichung tatsächlich verifizieren. Nicht behaupten, ein Release sei veröffentlicht, wenn nur Commits existieren.
 6. Änderungen in der Kommunikation **primär mit Versionsnummer** nennen. Commit-SHA optional als technische Ergänzung.
 
-## 4. Forecast-Scroll-Regeln ab v0.1.0
+## 4. Forecast-Scroll-Regeln ab v1.1.1
 - Horizontaler Scrollbereich umschließt **gemeinsam** Chart.js-Canvas, Wetter-Icons und Windreihe; diese müssen exakt miteinander ausgerichtet bleiben.
 - Gilt für `forecast.type: daily` und `hourly`; Desktop-Scrollleiste und Touch-Scrollen für Smartphone/Tablet. Hauptbereich und Attribute bleiben fest.
 - `forecast.number_of_forecasts: 0` zeigt alle vom Wetteranbieter verfügbaren Einträge, Werte >0 begrenzen bewusst die Menge.
