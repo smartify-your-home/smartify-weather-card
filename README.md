@@ -5,7 +5,7 @@
 
 # 🌤️ Smartify Weather Card
 
-**Aktuelle Code-Version: v0.1.0** · [Änderungsverlauf](CHANGELOG.md) · [Release Notes](RELEASE_NOTES.md)
+**Aktuelle Code-Version: v1.1.1** · [Änderungsverlauf](CHANGELOG.md) · [Release Notes](RELEASE_NOTES.md)
 
 **Wetterkarte mit Temperaturverlauf, farbigen Wetter-Icons und Vorhersage-Diagramm für Home Assistant**
 
@@ -87,9 +87,9 @@ Bedienelemente und funktioniert damit auch in neueren Home-Assistant-Versionen.
 
 ### Manuell
 1. `dist/smartify-weather-chart.js` nach `/config/www/` kopieren.
-2. Unter **Einstellungen, Dashboards, Ressourcen** `/local/smartify-weather-chart.js?v=0.1.0` als
+2. Unter **Einstellungen, Dashboards, Ressourcen** `/local/smartify-weather-chart.js?v=1.1.1` als
    **JavaScript-Modul** hinzufügen.
-3. Browser-Cache leeren; bei manuell verwalteter Dashboard-Ressource nach jedem Update die Versionskennung in der URL erhöhen (z. B. `?v=0.1.0`).
+3. Browser-Cache leeren; bei manuell verwalteter Dashboard-Ressource nach jedem Update die Versionskennung in der URL erhöhen (z. B. `?v=1.1.1`).
 
 ## 🚀 Verwendung
 
@@ -200,7 +200,7 @@ forecast:
 
 ## 📋 Versionen und Weiterentwicklung
 
-Ab **v0.1.0** folgt die Karte dem Smartify-Standard: [AGENTS.md](AGENTS.md) ist vor jeder Änderung verbindlich zu lesen. Jede nutzerrelevante Änderung erhält eine neue SemVer-Nummer und aktualisierte [CHANGELOG.md](CHANGELOG.md), [RELEASE_NOTES.md](RELEASE_NOTES.md) und betroffene README-Abschnitte. Ein Code-Commit ist noch kein veröffentlichter GitHub-Release. Im Abschlussbericht ist die Versionsnummer maßgeblich.
+Ab **v1.1.1** folgt die Karte dem Smartify-Standard: [AGENTS.md](AGENTS.md) ist vor jeder Änderung verbindlich zu lesen. Jede nutzerrelevante Änderung erhält eine neue SemVer-Nummer und aktualisierte [CHANGELOG.md](CHANGELOG.md), [RELEASE_NOTES.md](RELEASE_NOTES.md) und betroffene README-Abschnitte. Ein Code-Commit ist noch kein veröffentlichter GitHub-Release. Im Abschlussbericht ist die Versionsnummer maßgeblich.
 
 Bei manuell eingebundenen Lovelace-Ressourcen nach jedem Update den URL-Parameter `?v=X.Y.Z` erhöhen, damit nicht die alte Browser-Cache-Version geladen wird.
 
