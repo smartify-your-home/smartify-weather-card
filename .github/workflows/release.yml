@@ -1,0 +1,65 @@
+name: Publish Smartify Weather Card
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - dist/smartify-weather-chart.js
+      - CHANGELOG.md
+      - RELEASE_NOTES.md
+      - README.md
+      - .github/workflows/release.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: smartify-weather-card-release
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify JavaScript and version metadata
+        run: |
+          set -euo pipefail
+          node --check dist/smartify-weather-chart.js
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+          card = Path('dist/smartify-weather-chart.js').read_text(encoding='utf-8')
+          match = re.search(r"SMARTIFY_WEATHER_CARD_VERSION = '([0-9]+\.[0-9]+\.[0-9]+)'", card)
+          if not match:
+              raise SystemExit('Version constant missing')
+          version = match.group(1)
+          for path in ('README.md', 'CHANGELOG.md', 'RELEASE_NOTES.md'):
+              if f'v{version}' not in Path(path).read_text(encoding='utf-8'):
+                  raise SystemExit(f'{path}: version v{version} missing')
+          print('Version metadata consistent:', version)
+          PY
+      - name: Publish versioned GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          version=$(sed -n "s/.*SMARTIFY_WEATHER_CARD_VERSION = '\\([0-9.]*\\)'.*/\\1/p" dist/smartify-weather-chart.js | head -n 1)
+          test -n "$version"
+          tag="v$version"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release $tag already exists; leaving unchanged."
+            exit 0
+          fi
+          if git ls-remote --exit-code --tags origin "refs/tags/$tag" >/dev/null 2>&1; then
+            echo "::error::Tag $tag exists without a GitHub release. Review required."
+            exit 1
+          fi
+          gh release create "$tag" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "Smartify Weather Card $tag" --notes-file RELEASE_NOTES.md
+          echo "Published $tag"
