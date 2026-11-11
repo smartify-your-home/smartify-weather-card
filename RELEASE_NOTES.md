@@ -15,6 +15,12 @@ Eine dezente Versionsnummer unten rechts in der Karte erleichtert die Kontrolle,
 - Bei aktualisierten Forecast-Daten wird die Scrollbreite neu berechnet.
 - Schutz gegen eine doppelte Registrierung des Custom Elements.
 
+
+### Qualitätssicherung vor dem Release
+- Automatische CI-Validierung für JavaScript-Syntax, HACS-/Versionsmetadaten und wichtige Forecast-/Scrollbar-Regressionsregeln ergänzt.
+- Ein Release wird erst nach erfolgreich bestandenem Prüfjob veröffentlicht.
+- GitHub-Actions-Startfehler (`startup_failure`) liegen vor dem Prüfjob und sind durch diese Validierung nicht automatisch behoben; ein echter Browser-/HA-Test steht weiterhin aus.
+
 ### Update
 1. Über HACS die neue Version installieren, sobald sie dort als Update angeboten wird.
 2. Dashboard neu laden. Bei Cache-Problemen Browser/App hart neu laden.
