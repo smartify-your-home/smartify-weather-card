@@ -17827,6 +17827,8 @@ var plugin = {
 
 Chart.register(...registerables, plugin);
 
+const SMARTIFY_WEATHER_CARD_VERSION = '0.1.0';
+
 class WeatherChartCard extends s {
 
 static getConfigElement() {
@@ -18798,6 +18800,14 @@ updateChart({ forecasts, forecastChart } = this) {
           font-weight: 300;
           margin-bottom: 1px;
         }
+        .smartify-version {
+          margin-top: 5px;
+          font-size: 10px;
+          text-align: right;
+          color: var(--secondary-text-color);
+          opacity: .65;
+          user-select: none;
+        }
       </style>
 
       <ha-card header="${config.title}">
@@ -18814,6 +18824,7 @@ updateChart({ forecasts, forecastChart } = this) {
             </div>
           </div>
           ${this.renderLastUpdated()}
+          <div class="smartify-version">v${SMARTIFY_WEATHER_CARD_VERSION}</div>
         </div>
       </ha-card>
     `;
@@ -19233,7 +19244,9 @@ renderLastUpdated() {
   }
 }
 
-customElements.define('weather-chart-card', WeatherChartCard);
+if (!customElements.get('weather-chart-card')) {
+  customElements.define('weather-chart-card', WeatherChartCard);
+}
 
 window.customCards = window.customCards || [];
 window.customCards.push({
