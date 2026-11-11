@@ -16,6 +16,12 @@ Alle nutzerrelevanten Änderungen werden ab v1.1.1 nach SemVer dokumentiert. Fr�
 - Forecast-Aktualisierungen lösen eine erneute Breitenberechnung aus.
 - Registrierung von `weather-chart-card` gegen wiederholtes `customElements.define` abgesichert.
 
+
+### Qualitätssicherung / CI
+- Eigenständiger Validierungs-Workflow für Push, Pull Requests und manuelle Ausführung ergänzt.
+- JavaScript-Syntaxprüfung, Versions-/HACS-Konsistenz, Forecast-Scroll-Regressionen und Workflow-YAML-Prüfung eingeführt.
+- Release-Workflow veröffentlicht nur nach erfolgreicher, wiederverwendbarer Validierung. Der bisherige GitHub-Actions-`startup_failure` ist dadurch nicht automatisch behoben.
+
 ### Migration / Upgrade
 - Keine Änderung des Kartentyps oder der bestehenden YAML-Schlüssel.
 - Die frühere automatische Begrenzung der Forecast-Zahl bei `number_of_forecasts: 0` entfällt. Für eine feste maximale Anzahl den Wert explizit setzen.
