@@ -1,8 +1,8 @@
 # Release Notes – Smartify Weather Card
 
-## v0.1.0 – Horizontales Scrollen der Wettervorhersage
+## v1.1.1 – Horizontales Scrollen der Wettervorhersage
 **Stand:** 11. November 2026  
-**Status:** Code und Dokumentation vorbereitet; GitHub-Release-Veröffentlichung separat prüfen.
+**Status:** Code und Dokumentation vorbereitet; GitHub-Release-Veröffentlichung über GitHub Actions vorgesehen.
 
 ### Neu
 Die tägliche **und** stündliche Wettervorhersage lässt sich jetzt seitlich scrollen. Diagramm, Niederschlag, Wetter-Icons und Windangaben bewegen sich zusammen und bleiben aufeinander ausgerichtet. Das funktioniert mit Touch-Gesten am Handy und Tablet sowie mit einer Scrollleiste am Desktop.
@@ -18,7 +18,7 @@ Eine dezente Versionsnummer unten rechts in der Karte erleichtert die Kontrolle,
 ### Update
 1. Über HACS die neue Version installieren, sobald sie dort als Update angeboten wird.
 2. Dashboard neu laden. Bei Cache-Problemen Browser/App hart neu laden.
-3. Bei manueller Installation Datei `dist/smartify-weather-chart.js` aktualisieren und die Ressourcen-URL auf `/local/smartify-weather-chart.js?v=0.1.0` setzen.
+3. Bei manueller Installation Datei `dist/smartify-weather-chart.js` aktualisieren und die Ressourcen-URL auf `/local/smartify-weather-chart.js?v=1.1.1` setzen.
 4. Keine YAML-Migration nötig. Wer statt sämtlicher Stunden/Tage nur eine feste Anzahl möchte, setzt `forecast.number_of_forecasts` explizit.
 
 ### Kompatibilität, Hinweise und Tests
