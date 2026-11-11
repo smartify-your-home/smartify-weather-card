@@ -204,6 +204,11 @@ Ab **v1.1.1** folgt die Karte dem Smartify-Standard: [AGENTS.md](AGENTS.md) ist 
 
 Bei manuell eingebundenen Lovelace-Ressourcen nach jedem Update den URL-Parameter `?v=X.Y.Z` erhöhen, damit nicht die alte Browser-Cache-Version geladen wird.
 
+
+## ✅ Automatische Validierung
+
+Der Workflow [Validate Smartify Weather Card](.github/workflows/validation.yml) läuft bei Pushes auf `main`, Pull Requests und manueller Ausführung. Er prüft JavaScript-Syntax, die Versionen in README/Changelog/Release Notes, die HACS-Metadaten, das Scroll-Layout der Stunden-/Tagesansicht und YAML-Syntax der Workflows. [Der Release-Workflow](.github/workflows/release.yml) veröffentlicht nur nach erfolgreicher Validierung. Die enthaltenen statischen Regressionstests sind **kein** Ersatz für einen echten Home-Assistant-/Browser-Test. Ein GitHub-Actions-`startup_failure` kann bereits vor Testbeginn auftreten.
+
 ## 🙏 Credits
 
 Basiert auf der [weather-chart-card](https://github.com/mlamberts78/weather-chart-card) von
